@@ -1,7 +1,8 @@
 class Connect4:
 	def __init__(self):
 		self.turn = "red"
-		self.board = [["empty" for i in range(7)] for j in range(6)]
+		self.board = [["empty" for y in range(6)] for x in range(7)]
+
 
 	def checkWin(self,lastMove):
 		x = lastMove[0]
@@ -21,18 +22,23 @@ class Connect4:
 				return true
 		return false
 
-	def updateboard(self,buttonNumber):
-		for x in range(0,len(self.board[buttonNumber])):
-			if(self.board[buttonNumber][x] != "empty"):
-				nextPos = (buttonNumber,x)
-		self.board[nextPos[0]][nextPos[1]] = turn
-		if(checkWin(self,nextPos)):
-			endGame(self)
+
+	# the instance argument is the kivy widget button
+	# gameLayout is the GUI for the game page
+	def updateBoard(self, buttonNumber):
+		nextPos = ()
+		for y in range(0, 6):
+			if(self.board[buttonNumber][y] == "empty"):
+				nextPos = (buttonNumber, y)
+		self.board[nextPos[0]][nextPos[1]] = self.turn
+
+		# if(self.checkWin(nextPos)):
+		# 	self.endGame()
+		# else:
+		if(self.turn == "red"):
+			self.turn = "yellow"
 		else:
-			if(self.turn == "red"):
-				self.turn = "yellow"
-			else:
-				self.turn = "red"
+			self.turn = "red"
 
 	def endGame(self):
-		self.board =[["empty" for i in range(7)] for j in range(6)]
+		self.board =[["empty" for y in range(7)] for x in range(6)]

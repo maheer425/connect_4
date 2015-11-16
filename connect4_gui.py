@@ -4,11 +4,15 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.graphics import *
+from functools import partial
+import connect4
 
 
 class ModeScreen(Screen):
-	def __init__(self, **kwargs):
+	def __init__(self, board, **kwargs):
 		super(ModeScreen, self).__init__(** kwargs)
+		self.board = board
 
 		mode_layout = BoxLayout(spacing=10, orientation="vertical")
 
@@ -33,29 +37,55 @@ class ModeScreen(Screen):
 
 
 class GameScreen(Screen):
-	def __init__(self, **kwargs):
+
+	def __init__(self, game, **kwargs):
 		super(GameScreen, self).__init__(**kwargs)
+		self.game = game
 
-		game_layout = GridLayout(cols=7, rows=7)
+		self.game_layout = GridLayout(cols=7, rows=7)
 
-		for i in range(6):
-			for j in range(7):
-				game_layout.add_widget(Button(text=str(i) + ", " + str(j)))
+		for y in range(6):
+			for x in range(7):
+				self.game_layout.add_widget(Button(background_color=(255,255,255,1.0)))
 
 		for i in range(7):
-			game_layout.add_widget(Button(text="Pick column " + str(i)))
+			self.game_layout.add_widget(Button(text=str(i), on_press=self.update_and_repaint))
 
-		self.add_widget(game_layout)
+		self.add_widget(self.game_layout)
+
+
+	def repaint_board(self):
+		self.game_layout.clear_widgets()
+
+		for y in range(6):
+			for x in range(7):
+				if (self.game.board[x][y] == "red"):
+					self.game_layout.add_widget(Button(background_color=(255,0,0,1.0)))
+				elif (self.game.board[x][y] == "yellow"):
+					self.game_layout.add_widget(Button(background_color=(255,255,0,1.0)))
+				else:
+					self.game_layout.add_widget(Button(background_color=(255,255,255,1.0)))
+
+		for i in range(7):
+			self.game_layout.add_widget(Button(text=str(i), on_press=self.update_and_repaint))
+
+
+	def update_and_repaint(self, instance):
+		self.game.updateBoard(int(instance.text))
+
+		self.repaint_board()
 
 
 class Connect4GUI(App):
 
 	def build(self):
 
+		# memory representation of the board
+		connect4_game = connect4.Connect4()
 		# adding screens to the screen manager
 		screen_manager = ScreenManager()
-		mode_screen = ModeScreen(name="mode")
-		game_screen = GameScreen(name="game")
+		mode_screen = ModeScreen(connect4_game, name="mode")
+		game_screen = GameScreen(connect4_game, name="game")
 		screen_manager.add_widget(mode_screen)
 		screen_manager.add_widget(game_screen)
 		return screen_manager
