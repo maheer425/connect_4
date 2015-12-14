@@ -4,10 +4,10 @@ class GameTree:
 		self.root.board = board
 		self.root.turn = turn
 		self.root.type = "max"
-		createTree(0,self.root,depth)
+		self.createTree(0,self.root,depth)
 			
 
-	def createTree(curdepth,parent,maxdepth):
+	def createTree(self, curdepth,parent,maxdepth):
 		if(curdepth != maxdepth):
 			for j in range(0,7):
 				if checkLegal(parent.board,j):
@@ -25,7 +25,7 @@ class GameTree:
 					if(curdepth == maxdepth-1):
 						child.isLeaf = True
 					child.board = parent.board
-					updateBoard(child,j)
+					self.updateBoard(child,j)
 					parent.children.append(child)
 					createTree(curdepth+1,child,maxdepth)
 
@@ -36,7 +36,7 @@ class GameTree:
 				return True
 		return False
 
-	def updateBoard(node,move):
+	def updateBoard(self, node, move):
 		nextPos = ()
 		for y in range(0, 6):
 			if(node.board[move][y] == "empty"):
