@@ -3,7 +3,7 @@ import GameTree
 import Heuristics
 import sys
 
-depth = 3
+depth = 6
 
 def human_vs_cpu(game):
 	game_tree = GameTree.GameTree(depth, game.board, game.turn)
