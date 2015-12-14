@@ -25,8 +25,6 @@ class GameTree:
 			
 
 	def createTree(self, curdepth,parent,maxdepth,heuristicFunction):
-		print (str(curdepth) + " current depth")
-		print (str(maxdepth) + " max depth")
 		if(curdepth != maxdepth):
 			for j in range(0,7):
 				if checkLegal(parent.board,j):

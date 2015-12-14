@@ -5,6 +5,5 @@ class TreeNode:
 		self.turn = ""
 		self.type = ""
 		self.isLeaf = False
-		self.heuristic = 0
 		self.children = []
 		self.lastMove = -1

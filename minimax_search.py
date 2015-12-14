@@ -1,11 +1,10 @@
 
-
-def run_minimax (tree_node, d, minv, maxv):
+def run_minimax (tree_node, d, minv, maxv, heuristic):
 	'''Runs a minimax search on the given minimax tree node down to 
 	a depth of d and returns the (score, move). move is in the range 
 	0..6 '''
 	if (d == 0 or tree_node.isLeaf == True):
-		return (tree_node.heuristic, tree_node.lastMove)
+		return (heuristic(tree_node.board, tree_node.turn), tree_node.lastMove)
 
 	if (tree_node.type == "max"):
 		node_value = minv
