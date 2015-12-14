@@ -2,6 +2,7 @@ class Connect4:
 	def __init__(self):
 		self.turn = "red"
 		self.board = [["empty" for y in range(6)] for x in range(7)]
+		self.mode = -1 # 0, 1 or 2
 
 
 	def checkWin(self,lastMove):
@@ -38,11 +39,14 @@ class Connect4:
 
 		if(self.checkWin(nextPos)):
 			self.endGame()
+			return "game ended"
 
 		if(self.turn == "red"):
 			self.turn = "yellow"
 		else:
 			self.turn = "red"
+
+		return "game on"
 			
 
 	def endGame(self):
