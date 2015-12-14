@@ -8,27 +8,35 @@ def run_minimax (tree_node, d, minv, maxv, heuristic):
 
 	if (tree_node.type == "max"):
 		node_value = minv
+
+		updated_minv = minv # this will change as we get child values
+
 		move_to_make = -1 # initially we don't know which move to make
 		print(str(maxv))
 		for child_node in tree_node.children:
-			(child_node_value, child_move) = run_minimax(child_node, d-1, node_value, maxv,heuristic)
-			if (child_node_value > node_value):
+			(child_node_value, child_move) = run_minimax(child_node, d-1, updated_minv, maxv, heuristic)
+			if (child_node_value > updated_minv):
+				updated_minv = child_node_value
 				node_value = child_node_value 
 				move_to_make = child_node.lastMove
-			if (node_value > maxv): # same as min <= max
-				print("Pruned")
-				return (maxv, move_to_make)
+
+			if (maxv <= updated_minv): 
+				return (node_value, move_to_make)
 		return (node_value, move_to_make)
 
 	else: # type is min
 		node_value = maxv
+
+		updated_maxv = maxv # this will change as we get child values
+
 		move_to_make = -1 # initially we don't know which move to make
 		for child_node in tree_node.children:
-			(child_node_value, child_move) = run_minimax(child_node, d-1, minv, node_value,heuristic)
-			if (child_node_value < node_value):
+			(child_node_value, child_move) = run_minimax(child_node, d-1, minv, updated_maxv, heuristic)
+			if (child_node_value < updated_maxv):
+				updated_maxv = child_node_value
 				node_value = child_node_value
 				move_to_make = child_node.lastMove
-			if (node_value < minv):
-				print("pruned min")
-				return (minv, move_to_make)
+
+			if (updated_maxv <= minv):
+				return (node_value, move_to_make)
 		return (node_value, move_to_make)
