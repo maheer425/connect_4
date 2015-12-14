@@ -16,17 +16,15 @@ def updateBoard(node, move):
 	node.board[nextPos[0]][nextPos[1]] = node.turn
 
 class GameTree:
-	def __init__(self,depth,board,turn,heuristicFunction):
+	def __init__(self,depth,board,turn):
 		self.root = TreeNode.TreeNode()
 		self.root.board = copy.deepcopy(board)
 		self.root.turn = turn
 		self.root.type = "max"
-		self.createTree(0, self.root, depth, heuristicFunction)
+		self.createTree(0, self.root, depth)
 			
 
-	def createTree(self, curdepth,parent,maxdepth,heuristicFunction):
-		print (str(curdepth) + " current depth")
-		print (str(maxdepth) + " max depth")
+	def createTree(self, curdepth,parent,maxdepth):
 		if(curdepth != maxdepth):
 			for j in range(0,7):
 				if checkLegal(parent.board,j):
@@ -45,6 +43,5 @@ class GameTree:
 					updateBoard(child,j)
 					if(curdepth == maxdepth-1):
 						child.isLeaf = True
-						child.heuristic = heuristicFunction(child.board,child.turn)
 					parent.children.append(child)
-					self.createTree(curdepth+1, child, maxdepth, heuristicFunction)
+					self.createTree(curdepth+1, child, maxdepth)
