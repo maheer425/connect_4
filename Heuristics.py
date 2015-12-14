@@ -1,0 +1,2 @@
+def threats(board,lastMove):
+	

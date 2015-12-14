@@ -22,6 +22,8 @@ class GameTree:
 						child.type = "min"
 					else:
 						child.type = "max"
+					if(curdepth == maxdepth-1):
+						child.isLeaf = True
 					child.board = parent.board
 					updateBoard(child,j)
 					parent.children.append(child)
