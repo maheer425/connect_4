@@ -1,6 +1,7 @@
 import TreeNode
 import copy
 import Heuristics
+import numpy
 
 def checkLegal(board,move):
 	for y in range(0, 6):
