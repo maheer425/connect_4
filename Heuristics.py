@@ -20,9 +20,24 @@ def baseline(board,turn):
 				score +=1
 	return score
 
+def beat_gabbi(board,turn):
+	if(turn == "red"):
+		enemyColor = "yellow"
+	else:
+		enemyColor = "red"
+	if(checkForStreak(board,enemyColor,4)>0):
+		return -1000000
+
 def maximize_threats(board,turn):
 	winningRowsP1 = 0
 	score = 0
+	if(turn == "red"):
+		enemyColor = "yellow"
+	else:
+		enemyColor = "red"
+	if(checkForStreak(board,enemyColor,4)>0):
+		return -1000000
+
 	for x in range(0,7):
 		for y in range(0,6):
 			winningColor = horizontal_winning_row(board,turn,x,y)

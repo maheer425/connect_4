@@ -1,11 +1,12 @@
 import TreeNode
 import copy
+import Heuristics
 
 def checkLegal(board,move):
-	nextPos = ()
 	for y in range(0, 6):
 		if(board[move][y] == "empty"):
-			return True
+			if(Heuristics.checkForStreak(board,"red",4) < 1 and Heuristics.checkForStreak(board,"yellow",4) <1):
+				return True
 	return False
 
 def updateBoard(node, move):
