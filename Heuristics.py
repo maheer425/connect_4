@@ -175,12 +175,12 @@ def streaks_234(board, turn):
 		my_threes = checkForStreak(board, turn, 3)
 		my_twos = checkForStreak(board, turn, 2)
 		opp_fours = checkForStreak(board, opp_turn, 4)
-		#opp_threes = self.checkForStreak(board, o_color, 3)
-		#opp_twos = self.checkForStreak(board, o_color, 2)
+		#opp_threes = checkForStreak(board, opp_turn, 3)
+		#opp_twos = checkForStreak(board, opp_turn, 2)
 		if opp_fours > 0:
 			return -100000
 		else:
-			return my_fours*100000 + my_threes*100 + my_twos
+			return my_fours*100000 + my_threes*100 + my_twos*10
 			
 
 def checkForStreak(board, turn, streak):

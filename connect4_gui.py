@@ -6,8 +6,10 @@ from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.graphics import *
 from functools import partial
+from kivy.clock import Clock
 import connect4
 import mode_controller
+import time
 
 
 class ModeScreen(Screen):
@@ -65,7 +67,7 @@ class GameScreen(Screen):
 		self.add_widget(self.game_layout)
 
 
-	def repaint_board(self):
+	def repaint_board(self, stub):
 		self.game_layout.clear_widgets()
 
 		for y in range(6):
