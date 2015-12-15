@@ -21,7 +21,7 @@ def baseline(board,turn):
 	return score
 
 
-def streaks_value(board, turn):
+def streaks_234(board, turn):
 		""" Simple heuristic to evaluate board configurations
 			Heuristic is (num of 4-in-a-rows)*99999 + (num of 3-in-a-rows)*100 + 
 			(num of 2-in-a-rows)*10 - (num of opponent 4-in-a-rows)*99999 - (num of opponent
@@ -51,7 +51,7 @@ def checkForStreak(board, turn, streak):
 	for y in range(6):
 		for x in range(7):
 			# ...that is of the color we're looking for...
-			if board[x][y].lower() == color.lower():
+			if board[x][y].lower() == turn.lower():
 				# check if a vertical streak starts at (i, j)
 				count += verticalStreak(x, y, board, streak)
 				
@@ -63,10 +63,10 @@ def checkForStreak(board, turn, streak):
 	# return the sum of streaks of length 'streak'
 	return count
 		
-def verticalStreak(self, col, row, board, streak):
+def verticalStreak(x, y, board, streak):
 	consecutiveCount = 0
-	for i in range(row, 6):
-		if board[i][col].lower() == board[row][col].lower():
+	for col in range(y, 6):
+		if board[x][col].lower() == board[x][y].lower():
 			consecutiveCount += 1
 		else:
 			break
@@ -76,10 +76,10 @@ def verticalStreak(self, col, row, board, streak):
 	else:
 		return 0
 
-def horizontalStreak(col, row, board, streak):
+def horizontalStreak(x, y, board, streak):
 	consecutiveCount = 0
-	for j in range(col, 7):
-		if board[row][j].lower() == board[row][col].lower():
+	for row in range(x, 7):
+		if board[row][y].lower() == board[x][y].lower():
 			consecutiveCount += 1
 		else:
 			break
@@ -89,35 +89,35 @@ def horizontalStreak(col, row, board, streak):
 	else:
 		return 0
 
-def diagonalCheck(col, row, board, streak):
+def diagonalCheck(x, y, board, streak):
 
 	total = 0
 	# check for diagonals with positive slope
 	consecutiveCount = 0
-	j = col
-	for i in range(row, 6):
-		if j > 6:
+	row = x
+	for col in range(y, 6):
+		if row > 6:
 			break
-		elif board[i][j].lower() == board[row][col].lower():
+		elif board[row][col].lower() == board[x][y].lower():
 			consecutiveCount += 1
 		else:
 			break
-		j += 1 # increment column when row is incremented
+		row += 1 # incremented row when col is incremented
 		
 	if consecutiveCount >= streak:
-		total += 1
+		total += 1 
 
 	# check for diagonals with negative slope
 	consecutiveCount = 0
-	j = col
-	for i in range(row, -1, -1):
-		if j > 6:
+	row = x
+	for col in range(y, -1, -1):
+		if row > 6:
 			break
-		elif board[i][j].lower() == board[row][col].lower():
+		elif board[row][col].lower() == board[x][y].lower():
 			consecutiveCount += 1
 		else:
 			break
-		j += 1 # increment column when row is incremented
+		row += 1 # increment row when col is decremented
 
 	if consecutiveCount >= streak:
 		total += 1

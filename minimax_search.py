@@ -12,7 +12,6 @@ def run_minimax (tree_node, d, minv, maxv, heuristic):
 		updated_minv = minv # this will change as we get child values
 
 		move_to_make = -1 # initially we don't know which move to make
-		print(str(maxv))
 		for child_node in tree_node.children:
 			(child_node_value, child_move) = run_minimax(child_node, d-1, updated_minv, maxv, heuristic)
 			if (child_node_value > updated_minv):
