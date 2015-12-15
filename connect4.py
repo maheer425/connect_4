@@ -50,4 +50,5 @@ class Connect4:
 			
 
 	def endGame(self):
-		self.board =[["empty" for y in range(6)] for x in range(7)]
+		pass
+		#self.board =[["empty" for y in range(6)] for x in range(7)]
