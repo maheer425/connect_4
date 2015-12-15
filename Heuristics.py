@@ -143,7 +143,7 @@ def uldiagonal_winning_row(board,turn,x,y):
 	else:
 		
 		return "None"
-'''
+
 def streaks_value(board, turn):
 		""" Simple heuristic to evaluate board configurations
 			Heuristic is (num of 4-in-a-rows)*99999 + (num of 3-in-a-rows)*100 + 
@@ -246,4 +246,3 @@ def diagonalCheck(col, row, board, streak):
 		total += 1
 
 	return total
-	'''
