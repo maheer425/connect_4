@@ -87,7 +87,6 @@ class GameScreen(Screen):
 
 		if (self.game.mode == 1):
 			cpu_move_num = mode_controller.human_vs_cpu(self.game)
-			print("CPU Move: " + str(cpu_move_num))
 			self.game.updateBoard(cpu_move_num)
 			self.repaint_board()
 
