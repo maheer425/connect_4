@@ -61,13 +61,16 @@ class GameScreen(Screen):
 			for x in range(7):
 				self.game_layout.add_widget(Button(background_color=(255,255,255,1.0)))
 
-		for i in range(7):
-			self.game_layout.add_widget(Button(text=str(i), on_press=self.update_and_repaint))
+		if (self.game.mode == 1 or self.game.mode == 0):
+			for i in range(7):
+				self.game_layout.add_widget(Button(text=str(i), on_press=self.update_and_repaint))
+		else: # cpu vs cpu
+			self.game_layout.add_widget(Button(text="Start CPU vs CPU game", on_press=self.cpu_v_cpu_update))
 
 		self.add_widget(self.game_layout)
 
 
-	def repaint_board(self, stub):
+	def repaint_board(self):
 		self.game_layout.clear_widgets()
 
 		for y in range(6):
@@ -84,13 +87,20 @@ class GameScreen(Screen):
 
 
 	def update_and_repaint(self, instance):
-		self.game.updateBoard(int(instance.text))
-		self.repaint_board()
+		if (self.game.mode == 0)
+			self.game.updateBoard(int(instance.text))
+			self.repaint_board()
 
-		if (self.game.mode == 1):
+		elif (self.game.mode == 1):
+			self.game.updateBoard(int(instance.text))
+			self.repaint_board()
+
 			cpu_move_num = mode_controller.human_vs_cpu(self.game)
 			self.game.updateBoard(cpu_move_num)
 			self.repaint_board()
+
+	def cpu_v_cpu_update(self, instance):
+		
 
 class Connect4GUI(App):
 
