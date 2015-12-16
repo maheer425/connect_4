@@ -10,6 +10,7 @@ from kivy.clock import Clock
 import connect4
 import mode_controller
 import time
+import Heuristics
 
 
 class ModeScreen(Screen):
@@ -82,11 +83,11 @@ class GameScreen(Screen):
 				else:
 					self.game_layout.add_widget(Button(background_color=(255,255,255,1.0)))
 
-		# if ((self.game.mode == 1) or (self.game.mode == 0)):
-		for i in range(7):
-			self.game_layout.add_widget(Button(text=str(i), on_press=self.update_and_repaint))
-		# else: # cpu vs cpu
-		# 	self.game_layout.add_widget(Button(text="Make Moves", on_press=self.cpu_v_cpu_update))
+		if ((self.game.mode == 1) or (self.game.mode == 0)):
+			for i in range(7):
+				self.game_layout.add_widget(Button(text=str(i), on_press=self.update_and_repaint))
+		else: # cpu vs cpu
+			self.game_layout.add_widget(Button(text="Make Moves", on_press=self.cpu_v_cpu_update))
 
 
 	def update_and_repaint(self, instance):
@@ -106,7 +107,8 @@ class GameScreen(Screen):
 			
 			self.repaint_board()
 
-			cpu_move_num = mode_controller.human_vs_cpu(self.game)
+			#cpu_move_num = mode_controller.human_vs_cpu(self.game)
+			cpu_move_num = Heuristics.rando()
 			status2 = self.game.updateBoard(cpu_move_num)
 			if ((status2 == "won") or (status2 == "draw")):
 				self.repaint_board()
@@ -120,14 +122,14 @@ class GameScreen(Screen):
 		cpu1_move_num = mode_controller.cpu1(self.game)
 
 		status = self.game.updateBoard(cpu1_move_num)
-		if ((status == "won") or (status == "draw")):
+		if ((status == "red won") or (status == "yellow won") or (status == "draw")):
 			self.repaint_board()
 			return
 
 		cpu2_move_num = mode_controller.cpu2(self.game)
 
 		status = self.game.updateBoard(cpu2_move_num)
-		if ((status == "won") or (status == "draw")):
+		if ((status == "red won") or (status == "yellow won") or (status == "draw")):
 			self.repaint_board()
 			return 
 

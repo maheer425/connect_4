@@ -1,7 +1,7 @@
 import random
 
-def rando(board, turn):
-	return random.randint(0,7)
+def rando():
+	return random.randint(0,6)
 
 def baseline(board,turn):
 	score = 0

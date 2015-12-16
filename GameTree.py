@@ -5,7 +5,7 @@ import Heuristics
 def checkLegal(board,move):
 	for y in range(0, 6):
 		if(board[move][y] == "empty"):
-			if(Heuristics.checkForStreak(board,"red",4) < 1 and Heuristics.checkForStreak(board,"yellow",4) <1):
+			if(Heuristics.checkForStreak(board,"red",4) < 1 and Heuristics.checkForStreak(board,"yellow",4) < 1):
 				return True
 	return False
 

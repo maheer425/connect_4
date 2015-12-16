@@ -17,7 +17,7 @@ class Connect4:
 				self.board[x][y-1+count] == self.turn and self.board[x][y+count] == self.turn):
 				print (self.turn + " won vertical")
 				return True
-			elif(x-3+count >= 0 and 3-y+count >= 0 and x+count <=6 and y+count <= 5 and self.board[x-3+count][y-3+count] == self.turn and self.board[x-2+count][y-2+count] == self.turn and #check diagonal win
+			elif(x-3+count >= 0 and y-3+count >= 0 and x+count <=6 and y+count <= 5 and self.board[x-3+count][y-3+count] == self.turn and self.board[x-2+count][y-2+count] == self.turn and #check diagonal win
 				self.board[x-1+count][y-1+count] == self.turn and self.board[x+count][y+count] == self.turn):
 				print (self.turn + " won diagonal")
 				return True
@@ -34,6 +34,8 @@ class Connect4:
 		nextPos = ()
 		self.pieces += 1
 		for y in range(0, 6):
+			print ("y " + str(y))
+			print ("button " + str(buttonNumber))
 			if(self.board[buttonNumber][y] == "empty"):
 				nextPos = (buttonNumber, y)
 				break
@@ -41,10 +43,12 @@ class Connect4:
 			self.board[nextPos[0]][nextPos[1]] = self.turn
 
 			if(self.checkWin(nextPos)):
+				original_turn = self.turn
 				self.endGame()
-				return "game ended"
+				return (original_turn + " won")
 			if(self.pieces == 42):
 				self.endGame()
+				return "draw"
 			if(self.turn == "red"):
 				self.turn = "yellow"
 			else:
