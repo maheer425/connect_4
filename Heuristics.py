@@ -1,3 +1,8 @@
+import random
+
+def rando(board, turn):
+	return random.randint(0,7)
+
 def baseline(board,turn):
 	score = 0
 	for x in range(0,7):
