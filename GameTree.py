@@ -14,6 +14,7 @@ def updateBoard(node, move):
 	for y in range(0, 6):
 		if(node.board[move][y] == "empty"):
 			nextPos = (move, y)
+			break
 	node.board[nextPos[0]][nextPos[1]] = node.turn
 
 class GameTree:

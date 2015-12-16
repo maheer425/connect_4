@@ -36,18 +36,22 @@ class Connect4:
 		for y in range(0, 6):
 			if(self.board[buttonNumber][y] == "empty"):
 				nextPos = (buttonNumber, y)
-		self.board[nextPos[0]][nextPos[1]] = self.turn
+				break
+		if(nextPos != ()):
+			self.board[nextPos[0]][nextPos[1]] = self.turn
 
-		if(self.checkWin(nextPos)):
-			self.endGame()
-			return "won"
-		if(self.pieces == 42):
-			self.endGame()
-			return "draw"
-		if(self.turn == "red"):
-			self.turn = "yellow"
-		else:
-			self.turn = "red"
+			if(self.checkWin(nextPos)):
+				self.endGame()
+				return "game ended"
+			if(self.pieces == 42):
+				self.endGame()
+			if(self.turn == "red"):
+				self.turn = "yellow"
+			else:
+				self.turn = "red"
+
+			return "game on"
+
 			
 
 	def endGame(self):
