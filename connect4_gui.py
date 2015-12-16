@@ -60,12 +60,12 @@ class GameScreen(Screen):
 		for y in range(6):
 			for x in range(7):
 				self.game_layout.add_widget(Button(background_color=(255,255,255,1.0)))
-
-		if (self.game.mode == 1 or self.game.mode == 0):
-			for i in range(7):
-				self.game_layout.add_widget(Button(text=str(i), on_press=self.update_and_repaint))
-		else: # cpu vs cpu
-			self.game_layout.add_widget(Button(text="Start CPU vs CPU game", on_press=self.cpu_v_cpu_update))
+				
+		# if ((self.game.mode == 1) or (self.game.mode == 0)):
+		for i in range(7):
+			self.game_layout.add_widget(Button(text=str(i), on_press=self.update_and_repaint))
+		# else: # cpu vs cpu
+		# 	self.game_layout.add_widget(Button(text="Make Moves", on_press=self.cpu_v_cpu_update))
 
 		self.add_widget(self.game_layout)
 
@@ -82,25 +82,56 @@ class GameScreen(Screen):
 				else:
 					self.game_layout.add_widget(Button(background_color=(255,255,255,1.0)))
 
+		# if ((self.game.mode == 1) or (self.game.mode == 0)):
 		for i in range(7):
 			self.game_layout.add_widget(Button(text=str(i), on_press=self.update_and_repaint))
+		# else: # cpu vs cpu
+		# 	self.game_layout.add_widget(Button(text="Make Moves", on_press=self.cpu_v_cpu_update))
 
 
 	def update_and_repaint(self, instance):
-		if (self.game.mode == 0)
-			self.game.updateBoard(int(instance.text))
+		if (self.game.mode == 0):
+			status = self.game.updateBoard(int(instance.text))
+			if ((status == "won") or (status == "draw")):
+				self.repaint_board()
+				return 
+
 			self.repaint_board()
 
 		elif (self.game.mode == 1):
-			self.game.updateBoard(int(instance.text))
+			status1 = self.game.updateBoard(int(instance.text))
+			if ((status1 == "won") or (status1 == "draw")):
+				self.repaint_board()
+				return 
+			
 			self.repaint_board()
 
 			cpu_move_num = mode_controller.human_vs_cpu(self.game)
-			self.game.updateBoard(cpu_move_num)
+			status2 = self.game.updateBoard(cpu_move_num)
+			if ((status2 == "won") or (status2 == "draw")):
+				self.repaint_board()
+				return 
+
 			self.repaint_board()
 
+
 	def cpu_v_cpu_update(self, instance):
-		
+
+		cpu1_move_num = mode_controller.cpu1(self.game)
+
+		status = self.game.updateBoard(cpu1_move_num)
+		if ((status == "won") or (status == "draw")):
+			self.repaint_board()
+			return
+
+		cpu2_move_num = mode_controller.cpu2(self.game)
+
+		status = self.game.updateBoard(cpu2_move_num)
+		if ((status == "won") or (status == "draw")):
+			self.repaint_board()
+			return 
+
+		self.repaint_board()
 
 class Connect4GUI(App):
 

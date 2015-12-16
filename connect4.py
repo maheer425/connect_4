@@ -40,17 +40,16 @@ class Connect4:
 
 		if(self.checkWin(nextPos)):
 			self.endGame()
-			return "game ended"
+			return "won"
 		if(self.pieces == 42):
 			self.endGame()
+			return "draw"
 		if(self.turn == "red"):
 			self.turn = "yellow"
 		else:
 			self.turn = "red"
-
-		return "game on"
 			
 
 	def endGame(self):
-		pass
-		#self.board =[["empty" for y in range(6)] for x in range(7)]
+		self.turn = "red"
+		self.board =[["empty" for y in range(6)] for x in range(7)]
