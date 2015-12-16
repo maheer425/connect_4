@@ -30,6 +30,8 @@ def beat_gabbi(board,turn):
 
 def maximize_threats(board,turn):
 	winningRowsP1 = 0
+	evenThreatsP1 = 0
+	oddThreatsP1 = 0
 	score = 0
 	if(turn == "red"):
 		enemyColor = "yellow"
@@ -37,30 +39,142 @@ def maximize_threats(board,turn):
 		enemyColor = "red"
 	if(checkForStreak(board,enemyColor,4)>0):
 		return -1000000
+	if(checkForStreak(board,turn,4)>0):
+		return 10000000
 
 	for x in range(0,7):
 		for y in range(0,6):
 			winningColor = horizontal_winning_row(board,turn,x,y)
 			if(turn == winningColor):
-				score += 1
+				winningRowsP1 += 1
 			elif(winningColor != "None"):
-				score -= 1
+				winningRowsP1 -= 1
 			winningColor = vertical_winning_row(board,turn,x,y)
 			if(turn == winningColor):
-				score += 1
+				winningRowsP1 += 1
 			elif(winningColor != "None"):
-				score -= 1
+				winningRowsP1 -= 1
 			winningColor = urdiagonal_winning_row(board,turn,x,y)
 			if(turn == winningColor):
-				score += 1
+				winningRowsP1 += 1
 			elif(winningColor != "None"):
-				score -= 1
+				winningRowsP1 -= 1
 			winningColor = uldiagonal_winning_row(board,turn,x,y)
 			if(turn == winningColor):
-				score += 1
+				winningRowsP1 += 1
 			elif(winningColor != "None"):
-				score -= 1
-	return score
+				winningRowsP1 -= 1
+			winningColor = horizontal_threat(board,turn,x,y)
+			if(turn == winningColor and x % 2 == 0):
+				evenThreatsP1 +=1
+			elif(turn == winningColor and x % 2 ==1):
+				oddThreatsP1 +=1
+			elif(winningColor == enemyColor and x%2 == 0):
+				evenThreatsP1 -=1
+			elif(winningColor == enemyColor and x%2 == 1):
+				oddThreatsP1 -=1
+			winningColor = urdiagonal_threat(board,turn,x,y)
+			if(turn == winningColor and x % 2 == 0):
+				oddThreatsP1 +=1
+			elif(turn == winningColor and x % 2 ==1):
+				evenThreatsP1 +=1
+			elif(winningColor == enemyColor and x%2 == 0):
+				oddThreatsP1 -=1
+			elif(winningColor == enemyColor and x%2 == 1):
+				evenThreatsP1 -=1
+			winningColor = uldiagonal_threat(board,turn,x,y)
+			if(turn == winningColor and x % 2 == 0):
+				oddThreatsP1 +=1
+			elif(turn == winningColor and x % 2 ==1):
+				evenThreatsP1 +=1
+			elif(winningColor == enemyColor and x%2 == 0):
+				oddThreatsP1 -=1
+			elif(winningColor == enemyColor and x%2 == 1):
+				evenThreatsP1 -=1
+	return .1*winningRowsP1 + evenThreatsP1 + oddThreatsP1
+
+def horizontal_threat(board,turn,x,y):
+	numFound = 0
+	numEnemyFound = 0
+	checkPos = False
+	if(turn == "red"):
+		enemyColor = "yellow"
+	else:
+		enemyColor = "red"
+	for i in range(x,x+4):
+		if(i>=7):
+			return "None"
+		if(board[i][y] == turn):
+			numFound += 1
+		if(board[i][y] == enemyColor):
+			numEnemyFound += 1
+		if(board[i][y] == "empty"):
+			if(y>0 and board[i][y-1] == "empty"):
+				checkPos = True
+	if(numFound == 3 and checkPos):
+		return turn
+	elif(numEnemyFound == 3 and checkPos):
+		return enemyColor
+	else:
+		return "None"
+
+def urdiagonal_threat(board,turn,x,y):
+	numFound = 0
+	numEnemyFound = 0
+	checkPos = False
+	if(turn == "red"):
+		enemyColor = "yellow"
+	else:
+		enemyColor = "red"
+	j = y
+	for i in range(x,x+4):
+		if(i>=7):
+			return "None"
+		if(j >=6):
+			return "None"
+		if(board[i][j] == turn):
+			numFound += 1
+		if(board[i][j] == enemyColor):
+			numEnemyFound += 1
+		if(board[i][j] == "empty"):
+			if(j>0 and board[i][j-1] == "empty"):
+				checkPos = True
+		j+=1
+	if(numFound == 3 and checkPos):
+		return turn
+	elif(numEnemyFound == 3 and checkPos):
+		return enemyColor
+	else:
+		return "None"
+
+def uldiagonal_threat(board,turn,x,y):
+	numFound = 0
+	numEnemyFound = 0
+	checkPos = False
+	if(turn == "red"):
+		enemyColor = "yellow"
+	else:
+		enemyColor = "red"
+	j = y
+	for i in range(x,x-4,-1):
+		if(i<0):
+			return "None"
+		if(j >=6):
+			return "None"
+		if(board[i][j] == turn):
+			numFound += 1
+		if(board[i][j] == enemyColor):
+			numEnemyFound += 1
+		if(board[i][j] == "empty"):
+			if(j>0 and board[i][j-1] == "empty"):
+				checkPos = True
+		j+=1
+	if(numFound == 3 and checkPos):
+		return turn
+	elif(numEnemyFound == 3 and checkPos):
+		return enemyColor
+	else:
+		return "None"
 
 def horizontal_winning_row(board,turn,x,y):
 	found_color = False
@@ -203,8 +317,8 @@ def checkForStreak(board, turn, streak):
 		
 def verticalStreak(x, y, board, streak):
 	consecutiveCount = 0
-	for col in range(y, 6):
-		if board[x][col].lower() == board[x][y].lower():
+	for row in range(y, 6):
+		if board[x][row].lower() == board[x][y].lower():
 			consecutiveCount += 1
 		else:
 			break
@@ -216,8 +330,8 @@ def verticalStreak(x, y, board, streak):
 
 def horizontalStreak(x, y, board, streak):
 	consecutiveCount = 0
-	for row in range(x, 7):
-		if board[row][y].lower() == board[x][y].lower():
+	for column in range(x, 7):
+		if board[column][y].lower() == board[x][y].lower():
 			consecutiveCount += 1
 		else:
 			break
@@ -232,30 +346,30 @@ def diagonalCheck(x, y, board, streak):
 	total = 0
 	# check for diagonals with positive slope
 	consecutiveCount = 0
-	row = x
-	for col in range(y, 6):
-		if row > 6:
+	col = x
+	for row in range(y, 6):
+		if col > 6:
 			break
-		elif board[row][col].lower() == board[x][y].lower():
+		elif board[col][row].lower() == board[x][y].lower():
 			consecutiveCount += 1
 		else:
 			break
-		row += 1 # incremented row when col is incremented
+		col += 1 # incremented row when col is incremented
 		
 	if consecutiveCount >= streak:
 		total += 1 
 
 	# check for diagonals with negative slope
 	consecutiveCount = 0
-	row = x
-	for col in range(y, -1, -1):
-		if row > 6:
+	col = x
+	for row in range(y, -1, -1):
+		if col > 6:
 			break
-		elif board[row][col].lower() == board[x][y].lower():
+		elif board[col][row].lower() == board[x][y].lower():
 			consecutiveCount += 1
 		else:
 			break
-		row += 1 # increment row when col is decremented
+		col += 1 # increment row when col is decremented
 
 	if consecutiveCount >= streak:
 		total += 1

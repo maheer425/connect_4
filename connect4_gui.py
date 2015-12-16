@@ -67,10 +67,10 @@ class GameScreen(Screen):
 		self.add_widget(self.game_layout)
 
 
-	def repaint_board(self, stub):
+	def repaint_board(self):
 		self.game_layout.clear_widgets()
 
-		for y in range(6):
+		for y in range(5,-1,-1):
 			for x in range(7):
 				if (self.game.board[x][y] == "red"):
 					self.game_layout.add_widget(Button(background_color=(255,0,0,1.0)))
